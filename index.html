@@ -9,6 +9,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@300;400;500&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tooplate-vora-bold-style.css" />
 
+  <!-- ĐOẠN CSS THÊM VÀO ĐỂ TẠO BỐ CỤC ẢNH ĐẸP MẮT -->
+  <style>
+    .about__grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4rem;
+      align-items: flex-start;
+      margin-top: 2rem;
+    }
+    .about__image-col {
+      flex: 1;
+      min-width: 300px;
+    }
+    .about__text-col {
+      flex: 1.5;
+      min-width: 300px;
+    }
+    .about__image {
+      width: 100%;
+      height: auto;
+      border-radius: 8px; /* Bo tròn góc ảnh */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Tạo bóng đổ 3D */
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .about__image:hover {
+      transform: translateY(-5px); /* Hiệu ứng nảy nhẹ khi di chuột */
+    }
+  </style>
+
   <!--
   Tooplate 2161 Vora Bold
   https://www.tooplate.com/view/2161-vora-bold
@@ -85,30 +115,47 @@
         <span class="about__bg-num" aria-hidden="true">01</span>
         <span class="about__label">§ 01 — Studio</span>
         <div class="about__content">
-          <p class="about__text" data-reveal>
-            VORA is a <strong>design-led studio</strong> focused on brands
-            operating at the intersection of culture, commerce, and craft.
-            We don't decorate — we <strong>define.</strong> Every decision
-            is deliberate. Every pixel earns its place.
-          </p>
-          <div class="about__stats" data-reveal>
-            <div class="stat">
-              <span class="stat__value">140+</span>
-              <span class="stat__label">Projects Done</span>
+          
+          <!-- BỐ CỤC CHIA CỘT MỚI THÊM VÀO -->
+          <div class="about__grid">
+            
+            <!-- CỘT CHỨA ẢNH -->
+            <div class="about__image-col" data-reveal>
+              <!-- THAY LINK ẢNH CỦA BẠN VÀO BÊN DƯỚI -->
+              <img src="https://drive.usercontent.google.com/download?id=1H9XFNM9uNMTPeqmNEgViAWRJcs131IPN&export=view&authuser=0" alt="VORA Studio Image" class="about__image">
             </div>
-            <div class="stat">
-              <span class="stat__value">12</span>
-              <span class="stat__label">Countries</span>
+
+            <!-- CỘT CHỨA CHỮ -->
+            <div class="about__text-col">
+              <p class="about__text" data-reveal>
+                VORA is a <strong>design-led studio</strong> focused on brands
+                operating at the intersection of culture, commerce, and craft.
+                We don't decorate — we <strong>define.</strong> Every decision
+                is deliberate. Every pixel earns its place.
+              </p>
+              <div class="about__stats" data-reveal>
+                <div class="stat">
+                  <span class="stat__value">140+</span>
+                  <span class="stat__label">Projects Done</span>
+                </div>
+                <div class="stat">
+                  <span class="stat__value">12</span>
+                  <span class="stat__label">Countries</span>
+                </div>
+                <div class="stat">
+                  <span class="stat__value">7</span>
+                  <span class="stat__label">Years Active</span>
+                </div>
+                <div class="stat">
+                  <span class="stat__value">3</span>
+                  <span class="stat__label">D&AD Awards</span>
+                </div>
+              </div>
             </div>
-            <div class="stat">
-              <span class="stat__value">7</span>
-              <span class="stat__label">Years Active</span>
-            </div>
-            <div class="stat">
-              <span class="stat__value">3</span>
-              <span class="stat__label">D&AD Awards</span>
-            </div>
+
           </div>
+          <!-- KẾT THÚC BỐ CỤC CHIA CỘT -->
+
         </div>
       </section>
 
@@ -443,4 +490,3 @@
 
 </body>
 </html>
-
