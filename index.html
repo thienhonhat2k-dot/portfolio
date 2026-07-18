@@ -9,54 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@300;400;500&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tooplate-vora-bold-style.css" />
 
-  <!-- CSS Bổ sung cho phần About để chứa ảnh Google Drive đẹp mắt -->
-  <style>
-    .about__grid {
-      display: flex;
-      align-items: flex-start;
-      gap: 5rem;
-      margin-top: 1.5rem;
-    }
-    .about__photo-col {
-      flex: 0 0 35%;
-      max-width: 35%;
-    }
-    .about__text-col {
-      flex: 1;
-    }
-    .about__photo {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-      border-radius: 8px; /* Bo góc mềm mại */
-      box-shadow: 0 12px 30px rgba(0,0,0,0.15); /* Bóng đổ 3D */
-      filter: grayscale(100%); /* Bắt đầu bằng ảnh đen trắng */
-      transition: filter 0.4s ease, transform 0.4s ease; /* Hiệu ứng mượt mà */
-    }
-    /* Hiệu ứng khi di chuột vào ảnh */
-    .about__photo-col:hover .about__photo {
-      filter: grayscale(0%);
-      transform: translateY(-5px); /* Nổi nhẹ lên */
-    }
-    /* Giao diện trên điện thoại */
-    @media screen and (max-width: 991px) {
-      .about__grid {
-        flex-direction: column;
-        gap: 3rem;
-      }
-      .about__photo-col, .about__text-col {
-        max-width: 100%;
-        flex: 0 0 100%;
-      }
-      .about__photo-col {
-        order: -1; /* Đưa ảnh lên trên cùng */
-        max-width: 280px;
-        margin: 0 auto;
-      }
-    }
-  </style>
-
   <!--
   Tooplate 2161 Vora Bold
   https://www.tooplate.com/view/2161-vora-bold
@@ -133,39 +85,28 @@
         <span class="about__bg-num" aria-hidden="true">01</span>
         <span class="about__label">§ 01 — Studio</span>
         <div class="about__content">
-          <div class="about__grid">
-            
-            <!-- CỘT CHỨA ẢNH GOOGLE DRIVE -->
-            <div class="about__photo-col" data-reveal>
-              <img src="https://drive.google.com/uc?export=view&id=1H9XFNM9uNMTPeqmNEgViAWRJcs131IPN" class="about__photo" alt="VORA Studio portrait">
+          <p class="about__text" data-reveal>
+            VORA is a <strong>design-led studio</strong> focused on brands
+            operating at the intersection of culture, commerce, and craft.
+            We don't decorate — we <strong>define.</strong> Every decision
+            is deliberate. Every pixel earns its place.
+          </p>
+          <div class="about__stats" data-reveal>
+            <div class="stat">
+              <span class="stat__value">140+</span>
+              <span class="stat__label">Projects Done</span>
             </div>
-
-            <!-- CỘT CHỨA VĂN BẢN -->
-            <div class="about__text-col" data-reveal>
-              <p class="about__text">
-                VORA is a <strong>design-led studio</strong> focused on brands
-                operating at the intersection of culture, commerce, and craft.
-                We don't decorate — we <strong>define.</strong> Every decision
-                is deliberate. Every pixel earns its place.
-              </p>
-              <div class="about__stats">
-                <div class="stat">
-                  <span class="stat__value">140+</span>
-                  <span class="stat__label">Projects Done</span>
-                </div>
-                <div class="stat">
-                  <span class="stat__value">12</span>
-                  <span class="stat__label">Countries</span>
-                </div>
-                <div class="stat">
-                  <span class="stat__value">7</span>
-                  <span class="stat__label">Years Active</span>
-                </div>
-                <div class="stat">
-                  <span class="stat__value">3</span>
-                  <span class="stat__label">D&AD Awards</span>
-                </div>
-              </div>
+            <div class="stat">
+              <span class="stat__value">12</span>
+              <span class="stat__label">Countries</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value">7</span>
+              <span class="stat__label">Years Active</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value">3</span>
+              <span class="stat__label">D&AD Awards</span>
             </div>
           </div>
         </div>
@@ -502,3 +443,4 @@
 
 </body>
 </html>
+
