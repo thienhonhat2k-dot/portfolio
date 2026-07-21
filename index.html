@@ -1,545 +1,669 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Infinite Loop - Bootstrap 4.0 HTML Template</title>
-    <link rel="stylesheet" href="fontawesome-5.5/css/all.min.css" />
-    <link rel="stylesheet" href="slick/slick.css">
-    <link rel="stylesheet" href="slick/slick-theme.css">
-    <link rel="stylesheet" href="magnific-popup/magnific-popup.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/tooplate-infinite-loop.css" />
-<!--
-Tooplate 2117 Infinite Loop
-https://www.tooplate.com/view/2117-infinite-loop
--->
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thiện — Mechanical Design Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1F0EB;
+    --paper-alt:#E7E4DA;
+    --ink:#1C1E1B;
+    --ink-soft:#4A4C47;
+    --steel:#2F4858;
+    --steel-light:#4C6A80;
+    --safety:#E0982E;
+    --line:#C7C4B6;
+    --line-strong:#9C988A;
+    --max:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:40px 40px;
+    background-position:-1px -1px;
+    background-attachment:fixed;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px;}
+  ::selection{background:var(--safety);color:var(--ink);}
 
-  </head>
-  <body>    
-    <!-- Hero section -->
-    <section id="infinite" class="text-white tm-font-big tm-parallax"> style="background-image: url('https://kenh14cdn.com/2020/7/17/brvn-15950048783381206275371.jpg');">
-      <!-- Navigation -->
-      <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
-        <div class="container">   
-          <div class="tm-next">
-              <a href="#infinite" class="navbar-brand">Infinite Loop</a>
-          </div>             
-            
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars navbar-toggler-icon"></i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#infinite">Home</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#whatwedo">What We Do</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link tm-nav-link" href="#testimonials">Testimonials</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#gallery">Gallery</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#contact">Contact</a>
-              </li>                    
-            </ul>
-          </div>        
+  /* ---------- custom cursor (round dot + trailing ring) ----------
+     Desktop/mouse only — untouched on touchscreens so tapping still works. */
+  @media (hover:hover) and (pointer:fine){
+    body{cursor:none;}
+    a, button, .btn, .nav-toggle{cursor:none;}
+    .cursor-dot, .cursor-ring{
+      position:fixed;top:0;left:0;z-index:9999;
+      border-radius:50%;pointer-events:none;
+      transform:translate(-50%,-50%);
+      will-change:transform;
+    }
+    .cursor-dot{
+      width:7px;height:7px;background:var(--safety);
+      transition:width .2s ease, height .2s ease, background .2s ease;
+    }
+    .cursor-ring{
+      width:34px;height:34px;border:1px solid var(--ink);
+      transition:width .2s ease, height .2s ease, border-color .2s ease, opacity .2s ease;
+    }
+    body.cursor-hover .cursor-dot{width:10px;height:10px;background:var(--ink);}
+    body.cursor-hover .cursor-ring{width:52px;height:52px;border-color:var(--safety);}
+    body:not(.cursor-visible) .cursor-dot,
+    body:not(.cursor-visible) .cursor-ring{opacity:0;}
+  }
+  @media (hover:none), (pointer:coarse){
+    .cursor-dot, .cursor-ring{display:none;}
+  }
+
+  /* ---------- focus ---------- */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--steel);
+    outline-offset:3px;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(241,240,235,0.9);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    max-width:var(--max);margin:0 auto;padding:18px 32px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .nav-mark{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:0.02em;
+    display:flex;align-items:center;gap:8px;}
+  .nav-mark .dot{width:8px;height:8px;background:var(--safety);border-radius:1px;transform:rotate(45deg);display:inline-block;}
+  .nav-links{display:flex;gap:36px;list-style:none;}
+  .nav-links a{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;text-transform:uppercase;letter-spacing:0.08em;
+    color:var(--ink-soft);position:relative;padding-bottom:4px;
+  }
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--steel);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover{color:var(--ink);}
+  .nav-links a:hover::after{width:100%;}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line-strong);width:38px;height:38px;
+    border-radius:2px;cursor:pointer;position:relative;}
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:"";position:absolute;left:9px;width:20px;height:1.5px;background:var(--ink);transition:.25s;
+  }
+  .nav-toggle span{top:18px;}
+  .nav-toggle span::before{top:-6px;}
+  .nav-toggle span::after{top:6px;}
+  .nav-toggle.open span{background:transparent;}
+  .nav-toggle.open span::before{transform:translateY(6px) rotate(45deg);}
+  .nav-toggle.open span::after{transform:translateY(-6px) rotate(-45deg);}
+
+  @media (max-width:820px){
+    .nav-links{
+      position:fixed;top:63px;left:0;right:0;background:var(--paper);
+      flex-direction:column;gap:0;border-bottom:1px solid var(--line);
+      max-height:0;overflow:hidden;transition:max-height .3s ease;
+    }
+    .nav-links.open{max-height:300px;}
+    .nav-links li{border-top:1px solid var(--line);}
+    .nav-links a{display:block;padding:16px 32px;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- section scaffolding ---------- */
+  section{position:relative;padding:120px 0 100px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--steel);display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .eyebrow .tick{width:22px;height:1px;background:var(--steel);}
+  .section-head{max-width:640px;margin-bottom:64px;}
+  .section-head h2{font-size:clamp(28px,4vw,42px);font-weight:600;line-height:1.15;}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ---------- title block (signature element) ---------- */
+  .titleblock{
+    border:1px solid var(--line-strong);
+    background:var(--paper);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    display:grid;
+  }
+  .titleblock .tb-row{display:grid;grid-template-columns:1fr 1fr;}
+  .titleblock .tb-cell{padding:9px 12px;border-top:1px solid var(--line-strong);}
+  .titleblock .tb-cell:first-child{border-right:1px solid var(--line-strong);}
+  .titleblock .tb-row:first-child .tb-cell{border-top:none;}
+  .titleblock .tb-label{display:block;color:var(--ink-soft);letter-spacing:.06em;font-size:10px;text-transform:uppercase;margin-bottom:3px;}
+  .titleblock .tb-val{color:var(--ink);font-size:12px;}
+
+  /* ---------- image frames (avatar / hero bg / project photos) ----------
+     Fallback pattern: when an <img> fails to load (missing file), a script
+     below hides it and reveals the diagonal-hatch pattern underneath —
+     the standard drafting symbol for "no view here". Drop a real photo in
+     the referenced path and the hatch disappears automatically. */
+  .img-frame{
+    position:relative;overflow:hidden;
+    background:
+      repeating-linear-gradient(45deg, var(--line-strong) 0 1px, transparent 1px 13px),
+      var(--paper-alt);
+    border:1px solid var(--line-strong);
+  }
+  .img-frame img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1;}
+  .img-frame.no-img img{display:none;}
+  .img-frame-tag{
+    position:absolute;bottom:0;left:0;right:0;z-index:2;
+    font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);background:rgba(241,240,235,0.88);padding:6px 9px;
+    border-top:1px solid var(--line-strong);pointer-events:none;
+  }
+  .avatar-frame{width:150px;aspect-ratio:3/4;margin-bottom:20px;}
+  .proj-media{aspect-ratio:16/10;margin:-38px -38px 24px -38px;}
+
+  /* ---------- hero background image ---------- */
+  .hero-bg{
+    position:absolute;inset:0;z-index:-2;overflow:hidden;
+    background:repeating-linear-gradient(45deg, var(--line) 0 1px, transparent 1px 16px);
+  }
+  .hero-bg img{width:100%;height:100%;object-fit:cover;display:block;opacity:.9;}
+  .hero-bg.no-img img{display:none;}
+  .hero-bg-overlay{
+    position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(180deg, rgba(241,240,235,0.35) 0%, rgba(241,240,235,0.88) 72%, var(--paper) 100%);
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+    padding-top:140px;padding-bottom:60px;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1fr 300px;gap:60px;align-items:end;
+  }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--steel);
+    letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:clamp(46px,8vw,96px);font-weight:700;line-height:0.98;letter-spacing:-0.01em;
+  }
+  .hero h1 .accent{color:var(--steel);}
+  .dim-line{
+    display:flex;align-items:center;gap:8px;margin:26px 0 30px;
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);
+  }
+  .dim-line .arrow{color:var(--line-strong);}
+  .dim-line .bar{flex:1;height:1px;background:var(--line-strong);position:relative;max-width:220px;}
+  .hero-tagline{font-size:18px;max-width:480px;color:var(--ink-soft);}
+  .hero-cta{display:flex;gap:16px;margin-top:38px;flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;
+    padding:14px 26px;border:1px solid var(--ink);display:inline-flex;align-items:center;gap:8px;
+    transition:background .2s ease, color .2s ease;
+  }
+  .btn-solid{background:var(--ink);color:var(--paper);}
+  .btn-solid:hover{background:var(--steel);border-color:var(--steel);}
+  .btn-outline:hover{background:var(--ink);color:var(--paper);}
+  .hero-panel{
+    align-self:end;
+  }
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-panel{order:-1;max-width:340px;}
+  }
+
+  .scroll-cue{
+    position:absolute;bottom:34px;left:32px;display:flex;align-items:center;gap:10px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;
+  }
+  .scroll-cue .line{width:1px;height:34px;background:var(--line-strong);position:relative;overflow:hidden;}
+  .scroll-cue .line::after{
+    content:"";position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--safety);
+    animation:scrollcue 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollcue{ 50%{top:100%;} 100%{top:100%;} }
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:70px;}
+  .about-lead{font-size:clamp(22px,2.6vw,28px);font-weight:500;line-height:1.4;font-family:'Space Grotesk',sans-serif;}
+  .about-lead .accent{color:var(--steel);}
+  .about-body{margin-top:26px;color:var(--ink-soft);max-width:520px;}
+  .spec-table{border-top:1px solid var(--line-strong);margin-top:8px;}
+  .spec-row{
+    display:grid;grid-template-columns:120px 1fr;padding:14px 0;border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;font-size:13px;
+  }
+  .spec-row .k{color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;font-size:11.5px;padding-top:2px;}
+  .spec-row .v{color:var(--ink);}
+  @media (max-width:820px){.about-grid{grid-template-columns:1fr;gap:44px;}}
+
+  /* ---------- skills (caliper gauges) ---------- */
+  .skills-alt{background:var(--paper-alt);}
+  .skill-list{display:flex;flex-direction:column;gap:26px;}
+  .skill-row{}
+  .skill-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .skill-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;}
+  .skill-val{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--steel);}
+  .gauge{height:10px;position:relative;background:repeating-linear-gradient(90deg, var(--line-strong) 0 1px, transparent 1px 10%);
+    border-bottom:1px solid var(--line-strong);}
+  .gauge-fill{
+    position:absolute;top:0;left:0;height:100%;background:var(--steel);width:0%;
+    transition:width 1.1s cubic-bezier(.2,.8,.2,1);
+  }
+  .gauge-fill::after{
+    content:"";position:absolute;right:-1px;top:-3px;width:2px;height:16px;background:var(--safety);
+  }
+  .tools-row{margin-top:56px;display:flex;flex-wrap:wrap;gap:12px;}
+  .tool-chip{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid var(--line-strong);
+    padding:8px 14px;letter-spacing:.03em;background:var(--paper);
+  }
+
+  /* ---------- projects ---------- */
+  .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-strong);
+    border:1px solid var(--line-strong);}
+  .proj-card{background:var(--paper);padding:38px;display:flex;flex-direction:column;min-height:300px;
+    transition:background .25s ease;}
+  .proj-card:hover{background:var(--paper-alt);}
+  .proj-sheet{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft);
+    display:flex;justify-content:space-between;margin-bottom:20px;
+  }
+  .proj-sheet .no{color:var(--safety);}
+  .proj-card h3{font-size:23px;font-weight:600;margin-bottom:10px;line-height:1.25;}
+  .proj-card p{color:var(--ink-soft);font-size:14.5px;max-width:380px;}
+  .proj-tags{margin-top:auto;padding-top:22px;display:flex;gap:8px;flex-wrap:wrap;}
+  .proj-tags span{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;
+    border:1px solid var(--line-strong);padding:4px 9px;color:var(--ink-soft);
+  }
+  @media (max-width:820px){.proj-grid{grid-template-columns:1fr;}}
+
+  /* ---------- process ---------- */
+  .process-alt{background:var(--paper-alt);}
+  .process-list{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+  .process-list::before{
+    content:"";position:absolute;top:29px;left:0;right:0;height:1px;background:var(--line-strong);
+    z-index:0;
+  }
+  .proc-step{position:relative;padding-right:24px;}
+  .proc-num{
+    width:58px;height:58px;border:1px solid var(--ink);background:var(--paper-alt);
+    display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;
+    font-size:14px;position:relative;z-index:1;margin-bottom:22px;
+  }
+  .proc-step:hover .proc-num{background:var(--ink);color:var(--paper);}
+  .proc-step h3{font-size:18px;font-weight:600;margin-bottom:10px;}
+  .proc-step p{font-size:13.5px;color:var(--ink-soft);margin-bottom:12px;}
+  .proc-tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--steel);text-transform:uppercase;letter-spacing:.05em;}
+  @media (max-width:900px){
+    .process-list{grid-template-columns:1fr;gap:36px;}
+    .process-list::before{display:none;}
+  }
+
+  /* ---------- contact ---------- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+  .contact h2{font-size:clamp(30px,4.5vw,52px);font-weight:600;line-height:1.15;margin-bottom:24px;}
+  .contact h2 .accent{color:var(--steel);}
+  .contact-list{display:flex;flex-direction:column;gap:0;margin-top:36px;}
+  .contact-item{
+    display:flex;justify-content:space-between;padding:18px 0;border-top:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;font-size:13.5px;
+  }
+  .contact-list .contact-item:last-child{border-bottom:1px solid var(--line);}
+  .contact-item .k{color:var(--ink-soft);text-transform:uppercase;font-size:11px;letter-spacing:.06em;}
+  .contact-item a:hover{color:var(--steel);}
+  @media (max-width:820px){.contact-grid{grid-template-columns:1fr;gap:20px;}}
+
+  footer{
+    border-top:1px solid var(--line-strong);padding:26px 0;
+  }
+  .footer-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<header>
+  <nav class="nav">
+    <a href="#top" class="nav-mark"><span class="dot"></span>THIỆN</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">Giới thiệu</a></li>
+      <li><a href="#skills">Kỹ năng</a></li>
+      <li><a href="#projects">Dự án</a></li>
+      <li><a href="#process">Quy trình</a></li>
+      <li><a href="#contact">Liên hệ</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Mở menu"><span></span></button>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg" id="heroBg">
+      <img src="images/hero-bg.jpg" alt="" onerror="this.parentElement.classList.add('no-img')">
+    </div>
+    <div class="hero-bg-overlay"></div>
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-eyebrow">Mechanical Design Engineer · Hồ Chí Minh City</div>
+          <h1>Thiện<br><span class="accent">Kỹ&nbsp;sư</span> Thiết<br>kế Cơ khí</h1>
+          <div class="dim-line">
+            <span class="arrow">⊢</span><span class="bar"></span><span class="arrow">⊣</span>
+            <span>TỪ Ý TƯỞNG → BẢN VẼ → SẢN PHẨM</span>
+          </div>
+          <p class="hero-tagline">Thiết kế cơ khí chính xác cho sản phẩm và hệ thống thực tế — từ mô hình 3D, dung sai kỹ thuật, đến hồ sơ chế tạo hoàn chỉnh.</p>
+          <div class="hero-cta">
+            <a href="#projects" class="btn btn-solid">Xem dự án →</a>
+            <a href="#contact" class="btn btn-outline">Liên hệ</a>
+          </div>
         </div>
-      </nav>
-      
-      <div class="text-center tm-hero-text-container">
-        <div class="tm-hero-text-container-inner">
-            <h2 class="tm-hero-title">THIỆN HỒ NHẬT</h2>
-            <p class="tm-hero-subtitle">
-              BIM MODELER
-              <br> THIẾT KẾ HVAC
-            </p>
-        </div>        
-      </div>
-
-      <div class="tm-next tm-intro-next">
-        <a href="#whatwedo" class="text-center tm-down-arrow-link">
-          <i class="fas fa-2x fa-arrow-down tm-down-arrow"></i>
-        </a>
-      </div>      
-    </>
-
-    < id="whatwedo" class="tm--pad-top">
-      
-      <div class="container">
-
-            <div class="row tm-content-box"><!-- first row -->
-                <div class="col-lg-12 col-xl-12">
-                    <div class="tm-intro-text-container">
-                        <h2 class="tm-text-primary mb-4 tm--title">What We Do</h2>
-                        <p class="mb-4 tm-intro-text">
-                          This is Infinite Loop, free Bootstrap 4.0 HTML template with a parallax effect. This layout is what you can modify and use for your websites. Please spread a word to your friends about our website. Thank you for supporting us. If you have any question, you can contact us or chat with us on our <a href="https://fb.com/tooplate">Tooplate Facebook page</a>.</p>
-                    </div>
-                </div>
-
-            </div><!-- first row -->
-            
-            <div class="row tm-content-box"><!-- second row -->
-        		<div class="col-lg-1">
-                    <i class="far fa-3x fa-chart-bar text-center tm-icon"></i>
-                </div>
-                <div class="col-lg-5">
-                    <div class="tm-intro-text-container">
-                        <h2 class="tm-text-primary mb-4">Market Analysis</h2>
-                        <p class="mb-4 tm-intro-text">
-                          Praesent sed pharetra lorem, blandit convallis mi. Aenean ornare elit ac metus lacinia, sed iaculis nibh semper. Pellentesque est urna.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-1">
-                    <i class="far fa-3x fa-comment-alt text-center tm-icon"></i>
-                </div>
-                <div class="col-lg-5">
-                    <div class="tm-intro-text-container">
-                        <h2 class="tm-text-primary mb-4">Fast Support</h2>
-                        <p class="mb-4 tm-intro-text">
-                          Credit goes to <a rel="nofollow" href="https://www.pexels.com">Pexels</a> website for all images used in this template. Cras condimentum mi et sapien dignissim luctus.</p>
-                    </div>
-                </div>
-
-            </div><!-- second row -->
-            
-            <div class="row tm-content-box"><!-- third row -->
-        		<div class="col-lg-1">
-                    <i class="fas fa-3x fa-fingerprint text-center tm-icon"></i>
-                </div>
-                <div class="col-lg-5">
-                    <div class="tm-intro-text-container">
-                        <h2 class="tm-text-primary mb-4">Top Security</h2>
-                        <p class="mb-4 tm-intro-text">
-                      You have <strong>no</strong> authority to post this template as a ZIP file on your template collection websites. You can <strong>use</strong> this template for your commercial websites.</p>
-                          
-                          <div class="tm-continue">
-                            <a href="#testimonials" class="tm-intro-text tm-btn-primary">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-1">
-                    <i class="fas fa-3x fa-users text-center tm-icon"></i>
-                </div>
-                <div class="col-lg-5">
-                    <div class="tm-intro-text-container">
-                      <h2 class="tm-text-primary mb-4">Social Work</h2>
-                        <p class="mb-4 tm-intro-text">
-                      You can change <a href="https://fontawesome.com/icons?d=gallery">Font Awesome icons</a> by either <b><em>fas or far</em></b> in the HTML codes. For Examples:<br>
-                      <em>&lt;i class=&quot;fas fa-users&quot;&gt;&lt;i class=&quot;far fa-chart-bar&quot;&gt;</em> </p>
-                          
-                          <div class="tm-continue">
-                            <a href="#testimonials" class="tm-intro-text tm-btn-primary">Details</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div><!-- third row -->
-
-        </div>
-      
-    </>
-    
-    <section id="testimonials" class="tm-section-pad-top tm-parallax-2">      
-      <div class="container tm-testimonials-content">
-        <div class="row">
-          <div class="col-lg-12 tm-content-box">
-            <h2 class="text-white text-center mb-4 tm-section-title">Testimonials</h2>
-            <p class="mx-auto tm-section-desc text-center">
-                Nulla dictum sem non eros euismod, eu placerat tortor lobortis. Suspendisse id velit eu libero pellentesque interdum. Etiam quis congue eros.
-              </p>
-            <div class="mx-auto tm-gallery-container tm-gallery-container-2">
-              <div class="tm-testimonials-carousel">
-                <figure class="tm-testimonial-item">
-                  <img src="img/testimonial-img-01.jpg" alt="Image" class="img-fluid mx-auto">
-                  <blockquote>This background image includes a semi-transparent overlay layer. This section also has a parallax image effect.</blockquote>
-                  <figcaption>Catherine Win (Designer)</figcaption>
-                </figure>
-
-                <figure class="tm-testimonial-item">
-                  <img src="img/testimonial-img-02.jpg" alt="Image" class="img-fluid mx-auto">
-                  <blockquote>Testimonial section comes with carousel items. You can use Infinite Loop HTML CSS template for your websites.</blockquote>
-                  <figcaption>Dual Rocker (CEO)</figcaption>
-                </figure>
-
-                <figure class="tm-testimonial-item">
-                  <img src="img/testimonial-img-03.jpg" alt="Image" class="img-fluid mx-auto">
-                  <blockquote>Nulla finibus ligula nec tortor convallis tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.</blockquote>
-                  <figcaption>Sandar Soft (Marketing)</figcaption>
-                </figure>
-
-                <figure class="tm-testimonial-item">
-                  <img src="img/testimonial-img-04.jpg" alt="Image" class="img-fluid mx-auto">
-                  <blockquote>Curabitur rutrum pharetra lobortis. Pellentesque vehicula, velit quis eleifend fermentum, erat arcu aliquet neque.</blockquote>
-                  <figcaption>Oliva Htoo (Designer)</figcaption>
-                </figure>
-
-                <figure class="tm-testimonial-item">
-                  <img src="img/testimonial-img-02.jpg" alt="Image" class="img-fluid mx-auto">
-                  <blockquote>Integer sit amet risus et erat imperdiet finibus. Nam lacus nunc, vulputate id ex eget, euismod auctor augue.</blockquote>
-                  <figcaption>Jacob Joker (CTO)</figcaption>
-                </figure>
-              </div>
+        <div class="hero-panel">
+          <div class="img-frame avatar-frame">
+            <img src="images/avatar.jpg" alt="Ảnh chân dung Thiện" onerror="this.parentElement.classList.add('no-img')">
+            <span class="img-frame-tag">PORTRAIT · 3:4</span>
+          </div>
+          <div class="titleblock">
+            <div class="tb-row">
+              <div class="tb-cell"><span class="tb-label">Họ tên</span><span class="tb-val">Thiện</span></div>
+              <div class="tb-cell"><span class="tb-label">Chức danh</span><span class="tb-val">Mechanical Design Eng.</span></div>
+            </div>
+            <div class="tb-row">
+              <div class="tb-cell"><span class="tb-label">Vị trí</span><span class="tb-val">TP. Hồ Chí Minh</span></div>
+              <div class="tb-cell"><span class="tb-label">Phần mềm chính</span><span class="tb-val">SolidWorks · AutoCAD</span></div>
+            </div>
+            <div class="tb-row">
+              <div class="tb-cell"><span class="tb-label">Sheet</span><span class="tb-val">01 / 01</span></div>
+              <div class="tb-cell"><span class="tb-label">Cập nhật</span><span class="tb-val">2026</span></div>
             </div>
           </div>
         </div>
       </div>
-      <div class="tm-bg-overlay"></div>
-    </section>
-    
-    <section id="gallery" class="tm-section-pad-top">
-      <div class="container tm-container-gallery">
-        <div class="row">
-          <div class="text-center col-12">
-              <h2 class="tm-text-primary tm-section-title mb-4">Gallery</h2>
-              <p class="mx-auto tm-section-desc">
-                Praesent sed pharetra lorem, blandit convallis mi. Aenean ornare elit ac metus lacinia, sed iaculis nibh semper. Pellentesque est urna, lobortis eu arcu a, aliquet tristique urna.
-              </p>
-          </div>            
+      <div class="scroll-cue"><span class="line"></span>SCROLL</div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap reveal">
+      <div class="eyebrow"><span class="tick"></span>01 · GIỚI THIỆU</div>
+      <div class="about-grid">
+        <div>
+          <p class="about-lead">Thiết kế cơ khí là <span class="accent">biến ý tưởng</span> thành bộ phận có thể gia công, lắp ráp và vận hành thật.</p>
+          <p class="about-body">[Thay bằng đoạn giới thiệu của bạn] — ví dụ: số năm kinh nghiệm, lĩnh vực bạn mạnh (thiết kế khuôn, đồ gá, máy tự động hóa, sản phẩm cơ khí chính xác…), và định hướng phát triển trong ngành. Nêu rõ điểm khác biệt của bạn: khả năng đọc và triển khai bản vẽ kỹ thuật, kiểm soát dung sai, phối hợp với xưởng gia công.</p>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="mx-auto tm-gallery-container">
-                    <div class="grid tm-gallery">
-                      <a href="img/gallery-img-01.jpg">
-                        <figure class="effect-honey tm-gallery-item">
-                          <img src="img/gallery-tn-01.jpg" alt="Image 1" class="img-fluid">
-                          <figcaption>
-                            <h2><i>Physical Health <span>Exercise!</span></i></h2>
-                          </figcaption>
-                        </figure>
-                      </a>
-                      <a href="img/gallery-img-02.jpg">
-                        <figure class="effect-honey tm-gallery-item">
-                          <img src="img/gallery-tn-02.jpg" alt="Image 2" class="img-fluid">
-                          <figcaption>
-                            <h2><i>Rain on Glass <span>Second Image</span></i></h2>
-                          </figcaption>
-                        </figure>
-                      </a>
-                      <a href="img/gallery-img-03.jpg">
-                        <figure class="effect-honey tm-gallery-item">
-                          <img src="img/gallery-tn-03.jpg" alt="Image 3" class="img-fluid">
-                          <figcaption>
-                            <h2><i><span>Sea View</span> Mega City</i></h2>
-                          </figcaption>
-                        </figure>
-                      </a>
-                      <a href="img/gallery-img-04.jpg">
-                        <figure class="effect-honey tm-gallery-item">
-                          <img src="img/gallery-tn-04.jpg" alt="Image 4" class="img-fluid">
-                          <figcaption>
-                            <h2><i>Dream Girl <span>Thoughts</span></i></h2>
-                          </figcaption>
-                        </figure>
-                      </a>
-                      <a href="img/gallery-img-05.jpg">
-                        <figure class="effect-honey tm-gallery-item">
-                          <img src="img/gallery-tn-05.jpg" alt="Image 5" class="img-fluid">
-                          <figcaption>
-                            <h2><i><span>Workstation</span> Offices</i></h2>
-                          </figcaption>
-                        </figure>
-                      </a>
-                      <a href="img/gallery-img-06.jpg">
-                        <figure class="effect-honey tm-gallery-item">
-                          <img src="img/gallery-tn-06.jpg" alt="Image 6" class="img-fluid">
-                          <figcaption>
-                            <h2><i>Just Above <span>The City</span></i></h2>
-                          </figcaption>
-                        </figure>
-                      </a>
-                      <a href="img/gallery-img-01.jpg">
-                        <figure class="effect-honey tm-gallery-item">
-                          <img src="img/gallery-tn-01.jpg" alt="Image 7" class="img-fluid">
-                          <figcaption>
-                            <h2><i>Another <span>Exercise Time</span></i></h2>
-                          </figcaption>
-                        </figure>
-                      </a>
-                      <a href="img/gallery-img-02.jpg">
-                        <figure class="effect-honey tm-gallery-item">
-                          <img src="img/gallery-tn-02.jpg" alt="Image 8" class="img-fluid">
-                          <figcaption>
-                            <h2><i>Repeated <span>Image Spot</span></i></h2>
-                          </figcaption>
-                        </figure>
-                      </a>
-                    </div>
-                </div>                
-            </div>        
+        <div>
+          <div class="spec-table">
+            <div class="spec-row"><span class="k">Kinh nghiệm</span><span class="v">[X năm — mô tả ngắn]</span></div>
+            <div class="spec-row"><span class="k">Chuyên môn</span><span class="v">Thiết kế cơ khí, CAD 3D, hồ sơ kỹ thuật</span></div>
+            <div class="spec-row"><span class="k">Lĩnh vực</span><span class="v">[VD: Cơ khí chính xác / Tự động hóa]</span></div>
+            <div class="spec-row"><span class="k">Học vấn</span><span class="v">[Tên trường] · [Ngành] · [Năm]</span></div>
+            <div class="spec-row"><span class="k">Vị trí</span><span class="v">TP. Hồ Chí Minh, Việt Nam</span></div>
           </div>
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Contact -->
-    <section id="contact" class="tm-section-pad-top tm-parallax-2">
-    
-      <div class="container tm-container-contact">
-        
-        <div class="row">
-            
-            <div class="text-center col-12">
-                <h2 class="tm-section-title mb-4">Contact Us</h2>
-                <p class="mb-5">
-                  Proin enim orci, tincidunt quis suscipit in, placerat nec est. Vestibulum posuere faucibus posuere. Quisque aliquam velit eget leo blandit egestas. Nulla id posuere felis, quis tristique nulla.
-                </p><br>
-            </div>
-            
-            <div class="col-sm-12 col-md-6">
-              <form action="" method="get">
-                <input id="name" name="name" type="text" placeholder="Your Name" class="tm-input" required />
-                <input id="email" name="email" type="email" placeholder="Your Email" class="tm-input" required />
-                <textarea id="message" name="message" rows="8" placeholder="Message" class="tm-input" required></textarea>
-                <button type="submit" class="btn tm-btn-submit">Submit</button>
-              </form>
-            </div>
-            
-            <div class="col-sm-12 col-md-6">
-
-                <div class="contact-item">
-                  <a rel="nofollow" href="https://www.tooplate.com/contact" class="item-link">
-                      <i class="far fa-2x fa-comment mr-4"></i>
-                      <span class="mb-0">Chat Online</span>
-                  </a>              
-                </div>
-                
-                <div class="contact-item">
-                  <a rel="nofollow" href="mailto:mail@company.com" class="item-link">
-                      <i class="far fa-2x fa-envelope mr-4"></i>
-                      <span class="mb-0">mail@company.com</span>
-                  </a>              
-                </div>
-                
-                <div class="contact-item">
-                  <a rel="nofollow" href="https://www.google.com/maps" class="item-link">
-                      <i class="fas fa-2x fa-map-marker-alt mr-4"></i>
-                      <span class="mb-0">Our Location</span>
-                  </a>              
-                </div>
-                
-                <div class="contact-item">
-                  <a rel="nofollow" href="tel:0100200340" class="item-link">
-                      <i class="fas fa-2x fa-phone-square mr-4"></i>
-                      <span class="mb-0">255-662-5566</span>
-                  </a>              
-                </div>
-                
-                <div class="contact-item">&nbsp;</div>
-            
-            </div>
-            
-            
-        </div><!-- row ending -->
-        
+  <!-- SKILLS -->
+  <section id="skills" class="skills-alt">
+    <div class="wrap reveal">
+      <div class="eyebrow"><span class="tick"></span>02 · KỸ NĂNG</div>
+      <div class="section-head">
+        <h2>Kỹ năng chuyên môn</h2>
       </div>
+      <div class="skill-list">
+        <div class="skill-row">
+          <div class="skill-top"><span class="skill-name">SolidWorks / CAD 3D</span><span class="skill-val mono">90%</span></div>
+          <div class="gauge"><div class="gauge-fill" data-val="90"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top"><span class="skill-name">AutoCAD — Bản vẽ kỹ thuật</span><span class="skill-val mono">88%</span></div>
+          <div class="gauge"><div class="gauge-fill" data-val="88"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top"><span class="skill-name">Dung sai & Lắp ghép (GD&T)</span><span class="skill-val mono">80%</span></div>
+          <div class="gauge"><div class="gauge-fill" data-val="80"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top"><span class="skill-name">Phân tích & Mô phỏng (FEA)</span><span class="skill-val mono">70%</span></div>
+          <div class="gauge"><div class="gauge-fill" data-val="70"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-top"><span class="skill-name">Tiếng Anh kỹ thuật</span><span class="skill-val mono">70%</span></div>
+          <div class="gauge"><div class="gauge-fill" data-val="70"></div></div>
+        </div>
+      </div>
+      <div class="tools-row">
+        <span class="tool-chip">SolidWorks</span>
+        <span class="tool-chip">AutoCAD</span>
+        <span class="tool-chip">Ansys</span>
+        <span class="tool-chip">Inventor</span>
+        <span class="tool-chip">MS Office</span>
+      </div>
+    </div>
+  </section>
 
-      	<footer class="text-center small tm-footer">
-          <p class="mb-0">
-          Copyright &copy; 2020 Company Name 
-          
-          . <a rel="nofollow" href="https://www.tooplate.com" title="HTML templates">Designed by TOOPLATE</a></p>
-        </footer>
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap reveal">
+      <div class="eyebrow"><span class="tick"></span>03 · DỰ ÁN</div>
+      <div class="section-head">
+        <h2>Dự án tiêu biểu</h2>
+      </div>
+      <div class="proj-grid">
+        <div class="proj-card">
+          <div class="img-frame proj-media">
+            <img src="images/projects/01.jpg" alt="[Tên dự án 1]" onerror="this.parentElement.classList.add('no-img')">
+            <span class="img-frame-tag">01 · 16:10</span>
+          </div>
+          <div class="proj-sheet"><span class="no">SHEET 01</span><span>PRODUCT DESIGN</span></div>
+          <h3>[Tên dự án 1]</h3>
+          <p>Mô tả ngắn: bài toán thiết kế, giải pháp cơ khí, kết quả đạt được.</p>
+          <div class="proj-tags"><span>SolidWorks</span><span>2025</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="img-frame proj-media">
+            <img src="images/projects/02.jpg" alt="[Tên dự án 2]" onerror="this.parentElement.classList.add('no-img')">
+            <span class="img-frame-tag">02 · 16:10</span>
+          </div>
+          <div class="proj-sheet"><span class="no">SHEET 02</span><span>JIG & FIXTURE</span></div>
+          <h3>[Tên dự án 2]</h3>
+          <p>Thiết kế đồ gá / khuôn phục vụ sản xuất, tối ưu thời gian gia công.</p>
+          <div class="proj-tags"><span>AutoCAD</span><span>2024</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="img-frame proj-media">
+            <img src="images/projects/03.jpg" alt="[Tên dự án 3]" onerror="this.parentElement.classList.add('no-img')">
+            <span class="img-frame-tag">03 · 16:10</span>
+          </div>
+          <div class="proj-sheet"><span class="no">SHEET 03</span><span>ASSEMBLY</span></div>
+          <h3>[Tên dự án 3]</h3>
+          <p>Cụm lắp ráp cơ khí, kiểm soát dung sai và khả năng lắp lẫn.</p>
+          <div class="proj-tags"><span>GD&T</span><span>2024</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="img-frame proj-media">
+            <img src="images/projects/04.jpg" alt="[Tên dự án 4]" onerror="this.parentElement.classList.add('no-img')">
+            <span class="img-frame-tag">04 · 16:10</span>
+          </div>
+          <div class="proj-sheet"><span class="no">SHEET 04</span><span>AUTOMATION</span></div>
+          <h3>[Tên dự án 4]</h3>
+          <p>Cơ cấu tự động hóa cho dây chuyền sản xuất, kèm mô phỏng chuyển động.</p>
+          <div class="proj-tags"><span>Inventor</span><span>2023</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="img-frame proj-media">
+            <img src="images/projects/05.jpg" alt="[Tên dự án 5]" onerror="this.parentElement.classList.add('no-img')">
+            <span class="img-frame-tag">05 · 16:10</span>
+          </div>
+          <div class="proj-sheet"><span class="no">SHEET 05</span><span>SHEET METAL</span></div>
+          <h3>[Tên dự án 5]</h3>
+          <p>Thiết kế chi tiết dập/uốn tôn, tối ưu vật liệu và quy trình gia công.</p>
+          <div class="proj-tags"><span>SolidWorks</span><span>2023</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="img-frame proj-media">
+            <img src="images/projects/06.jpg" alt="[Tên dự án 6]" onerror="this.parentElement.classList.add('no-img')">
+            <span class="img-frame-tag">06 · 16:10</span>
+          </div>
+          <div class="proj-sheet"><span class="no">SHEET 06</span><span>ANALYSIS</span></div>
+          <h3>[Tên dự án 6]</h3>
+          <p>Phân tích bền / mô phỏng ứng suất cho chi tiết chịu tải.</p>
+          <div class="proj-tags"><span>Ansys</span><span>2023</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    </section>
-    
-    <script src="js/jquery-1.9.1.min.js"></script>     
-    <script src="slick/slick.min.js"></script>
-    <script src="magnific-popup/jquery.magnific-popup.min.js"></script>
-    <script src="js/easing.min.js"></script>
-    <script src="js/jquery.singlePageNav.min.js"></script>     
-    <script src="js/bootstrap.min.js"></script> 
-    <script>
+  <!-- PROCESS -->
+  <section id="process" class="process-alt">
+    <div class="wrap reveal">
+      <div class="eyebrow"><span class="tick"></span>04 · QUY TRÌNH</div>
+      <div class="section-head">
+        <h2>Từ yêu cầu đến bản vẽ hoàn chỉnh</h2>
+      </div>
+      <div class="process-list">
+        <div class="proc-step">
+          <div class="proc-num mono">01</div>
+          <h3>Yêu cầu & Phân tích</h3>
+          <p>Làm rõ bài toán thiết kế, điều kiện làm việc, tiêu chuẩn kỹ thuật cần đáp ứng.</p>
+          <span class="proc-tag">Requirement · Spec</span>
+        </div>
+        <div class="proc-step">
+          <div class="proc-num mono">02</div>
+          <h3>Thiết kế 3D</h3>
+          <p>Dựng mô hình 3D, kiểm tra kết cấu, lắp ghép và giao diện giữa các cụm chi tiết.</p>
+          <span class="proc-tag">SolidWorks · CAD</span>
+        </div>
+        <div class="proc-step">
+          <div class="proc-num mono">03</div>
+          <h3>Mô phỏng & Kiểm tra</h3>
+          <p>Phân tích bền, dung sai, khả năng gia công/lắp ráp trước khi ra bản vẽ chính thức.</p>
+          <span class="proc-tag">FEA · GD&T</span>
+        </div>
+        <div class="proc-step">
+          <div class="proc-num mono">04</div>
+          <h3>Hồ sơ & Chế tạo</h3>
+          <p>Triển khai bản vẽ kỹ thuật, phối hợp xưởng gia công, theo dõi đến khi hoàn thiện.</p>
+          <span class="proc-tag">AutoCAD · Production</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      function getOffSet(){
-        var _offset = 450;
-        var windowHeight = window.innerHeight;
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap reveal contact-grid">
+      <div>
+        <div class="eyebrow"><span class="tick"></span>05 · LIÊN HỆ</div>
+        <h2>Cùng bắt tay vào <span class="accent">dự án</span> tiếp theo</h2>
+        <p style="color:var(--ink-soft);max-width:420px;">Sẵn sàng trao đổi về các dự án thiết kế cơ khí, gia công, hoặc hợp tác cùng đội ngũ kỹ thuật của bạn.</p>
+      </div>
+      <div class="contact-list">
+        <div class="contact-item"><span class="k">Điện thoại</span><a href="tel:+84000000000">[Số điện thoại]</a></div>
+        <div class="contact-item"><span class="k">Email</span><a href="mailto:email@example.com">[email@example.com]</a></div>
+        <div class="contact-item"><span class="k">Địa chỉ</span><span>TP. Hồ Chí Minh, Việt Nam</span></div>
+        <div class="contact-item"><span class="k">LinkedIn</span><a href="#">[đường dẫn LinkedIn]</a></div>
+      </div>
+    </div>
+  </section>
 
-        if(windowHeight > 500) {
-          _offset = 400;
-        } 
-        if(windowHeight > 680) {
-          _offset = 300
-        }
-        if(windowHeight > 830) {
-          _offset = 210;
-        }
+</main>
 
-        return _offset;
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 · Thiện — Mechanical Design Portfolio</span>
+    <span>TP. Hồ Chí Minh, Việt Nam</span>
+  </div>
+</footer>
+
+<script>
+  // custom cursor (round dot + trailing ring)
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (finePointer && dot && ring) {
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%,-50%)`;
+      document.body.classList.add('cursor-visible');
+    });
+    document.addEventListener('mouseleave', () => document.body.classList.remove('cursor-visible'));
+
+    function trailRing(){
+      const ease = reduceMotion ? 1 : 0.18;
+      ringX += (mouseX - ringX) * ease;
+      ringY += (mouseY - ringY) * ease;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%,-50%)`;
+      requestAnimationFrame(trailRing);
+    }
+    requestAnimationFrame(trailRing);
+
+    const hoverTargets = 'a, button, .btn, .nav-toggle, .proj-card, .skill-row';
+    document.querySelectorAll(hoverTargets).forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+  }
+
+  // mobile nav
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navToggle.classList.remove('open');
+    navLinks.classList.remove('open');
+  }));
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        // trigger gauges within this section
+        e.target.querySelectorAll('.gauge-fill').forEach(g => {
+          g.style.width = g.dataset.val + '%';
+        });
+        io.unobserve(e.target);
       }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el => io.observe(el));
+</script>
 
-      function setParallaxPosition($doc, multiplier, $object){
-        var offset = getOffSet();
-        var from_top = $doc.scrollTop(),
-          bg_css = 'center ' +(multiplier * from_top - offset) + 'px';
-        $object.css({"background-position" : bg_css });
-      }
-
-      // Parallax function
-      // Adapted based on https://codepen.io/roborich/pen/wpAsm        
-      var background_image_parallax = function($object, multiplier, forceSet){
-        multiplier = typeof multiplier !== 'undefined' ? multiplier : 0.5;
-        multiplier = 1 - multiplier;
-        var $doc = $(document);
-        // $object.css({"background-attatchment" : "fixed"});
-
-        if(forceSet) {
-          setParallaxPosition($doc, multiplier, $object);
-        } else {
-          $(window).scroll(function(){          
-            setParallaxPosition($doc, multiplier, $object);
-          });
-        }
-      };
-
-      var background_image_parallax_2 = function($object, multiplier){
-        multiplier = typeof multiplier !== 'undefined' ? multiplier : 0.5;
-        multiplier = 1 - multiplier;
-        var $doc = $(document);
-        $object.css({"background-attachment" : "fixed"});
-        
-        $(window).scroll(function(){
-          if($(window).width() > 768) {
-            var firstTop = $object.offset().top,
-                pos = $(window).scrollTop(),
-                yPos = Math.round((multiplier * (firstTop - pos)) - 186);              
-
-            var bg_css = 'center ' + yPos + 'px';
-
-            $object.css({"background-position" : bg_css });
-          } else {
-            $object.css({"background-position" : "center" });
-          }
-        });
-      };
-      
-      $(function(){
-        // Hero Section - Background Parallax
-        background_image_parallax($(".tm-parallax"), 0.30, false);
-        background_image_parallax_2($("#contact"), 0.80);   
-        background_image_parallax_2($("#testimonials"), 0.80);   
-        
-        // Handle window resize
-        window.addEventListener('resize', function(){
-          background_image_parallax($(".tm-parallax"), 0.30, true);
-        }, true);
-
-        // Detect window scroll and update navbar
-        $(window).scroll(function(e){          
-          if($(document).scrollTop() > 120) {
-            $('.tm-navbar').addClass("scroll");
-          } else {
-            $('.tm-navbar').removeClass("scroll");
-          }
-        });
-        
-        // Close mobile menu after click 
-        $('#tmNav a').on('click', function(){
-          $('.navbar-collapse').removeClass('show'); 
-        })
-
-        // Scroll to corresponding section with animation
-        $('#tmNav').singlePageNav({
-          'easing': 'easeInOutExpo',
-          'speed': 600
-        });        
-        
-        // Add smooth scrolling to all links
-        // https://www.w3schools.com/howto/howto_css_smooth_scroll.asp
-        $("a").on('click', function(event) {
-          if (this.hash !== "") {
-            event.preventDefault();
-            var hash = this.hash;
-
-            $('html, body').animate({
-              scrollTop: $(hash).offset().top
-            }, 600, 'easeInOutExpo', function(){
-              window.location.hash = hash;
-            });
-          } // End if
-        });
-
-        // Pop up
-        $('.tm-gallery').magnificPopup({
-          delegate: 'a',
-          type: 'image',
-          gallery: { enabled: true }
-        });
-
-        $('.tm-testimonials-carousel').slick({
-          dots: true,
-          prevArrow: false,
-          nextArrow: false,
-          infinite: false,
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          responsive: [
-            {
-              breakpoint: 992,
-              settings: {
-                slidesToShow: 2
-              }
-            },
-            {
-              breakpoint: 768,
-              settings: {
-                slidesToShow: 2
-              }
-            }, 
-            {
-              breakpoint: 480,
-              settings: {
-                  slidesToShow: 1
-              }                 
-            }
-          ]
-        });
-
-        // Gallery
-        $('.tm-gallery').slick({
-          dots: true,
-          infinite: false,
-          slidesToShow: 5,
-          slidesToScroll: 2,
-          responsive: [
-          {
-            breakpoint: 1199,
-            settings: {
-              slidesToShow: 4,
-              slidesToScroll: 2
-            }
-          },
-          {
-            breakpoint: 991,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 2
-            }
-          },
-          {
-            breakpoint: 767,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1
-            }
-          }
-        ]
-        });
-      });
-    </script>
-  </body>
+</body>
 </html>
